@@ -4,9 +4,12 @@
 #'
 #' @param x raw, long-format longitudinal data
 #' @param conf confidence level
+#'
 #' @return graph of pain over time by group
+#'
 #' @export
 topgraph = function(x, conf) {
+
   conf = conf + ((1 - conf) / 2) # adjusts calculation to be 2 tailed
   data = x %>% group_by(group, time) %>% summarize(avgpain = mean(pain, na.rm = TRUE),
                                                    sds = sd(pain, na.rm = TRUE), n = sum(!is.na(pain)), intlength = qnorm(conf) * (sds/sqrt(n)), # make 1.96 an input based on desired conf int

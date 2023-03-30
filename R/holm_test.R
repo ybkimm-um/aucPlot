@@ -5,7 +5,9 @@
 #'
 #' @param x table resulting from merged_results
 #' @param conf confidence level
+#'
 #' @return time value of no statistical significance
+#'
 #' @export
 holm_test = function(x, conf) {
   alpha = 1 - conf

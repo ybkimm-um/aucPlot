@@ -2,9 +2,12 @@
 #'
 #' Aggregates data from 2 individual tables and calculates the mean difference,
 #' pooled variance, t-test statistic, and p-value
+#'
 #' @param group1 aggregated data from group1
 #' @param group2 aggregated data from group2
+#'
 #' @return merged table with extra metrics for both groups
+#'
 #' @export
 merged_results = function(group1, group2) {
   xy = merge(group1, group2, by = "time", suffixes = c("_a", "_b"))

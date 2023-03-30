@@ -4,7 +4,7 @@
 \alias{iterative_table}
 \title{iterative_table}
 \usage{
-iterative_table(matrix1)
+iterative_table(iterative_data)
 }
 \arguments{
 \item{iterative_data}{matrix of individual AUC values}

@@ -1,8 +1,11 @@
 #' iterative_auc
 #'
-#' Intakes raw long-format longitudinal data and calculates iterative AUC values
+#' Imtakes raw long-format longitudinal data and calculates iterative AUC values
+#'
 #' @param data_long long format longitudinal data
+#'
 #' @return matrix of individual AUC per time interval
+#'
 #' @export
 iterative_auc = function(data_long) {
   n = length(x$time)

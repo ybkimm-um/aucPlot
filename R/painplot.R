@@ -10,9 +10,25 @@
 #' @param completecase option to exclude subjects without complete data
 #'
 #' @return 2 visuals
+#'
+#' @importFrom ggplot2 ggplot geom_ribbon aes geom_line scale_color_manual scale_fill_manual
+#' scale_x_continuous scale_y_continuous geom_hline ylab xlab theme_classic theme element_rect
+#' geom_vline element_blank annotate alpha
+#'
+#' @importFrom egg ggarrange
+#'
+#' @importFrom dplyr group_by summarize mutate filter select %>% arrange count row_number
+#'
+#' @importFrom stats ave complete.cases pt qnorm qt sd time
+#'
+#' @importFrom matrixStats rowSds
+#'
+#' @importFrom utils globalVariables tail
+#'
 #' @export
 painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "hours",
                     completecase = FALSE) {
+
   iterative_auc = function(x) {
     n = length(x$time)
     missing = is.na(x$pain)
@@ -130,7 +146,7 @@ painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "h
 
     graph = ggplot(data = graphdata) + geom_ribbon(mapping = aes(x = time, ymin = lowint, ymax = upint), fill = "palegreen", alpha = 0.3) +
       geom_line(mapping = aes(x = time, y = meandiff), color = "green4") +
-      scale_y_continuous(limit = c(yscale_lower, yscale_upper)) +
+      scale_y_continuous(limits = c(yscale_lower, yscale_upper)) +
       scale_x_continuous(breaks = graphdata$time) +
       geom_hline(yintercept = 0, linetype = "solid", color = "black") +
       ylab("Difference in Cumulative Mean Pain") +

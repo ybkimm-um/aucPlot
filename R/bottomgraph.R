@@ -11,6 +11,7 @@
 #' @param rawdata raw long-format, longitudinal data
 #'
 #' @return graph of pain over time by group
+#'
 #' @export
 bottomgraph = function(merged_table, conf, group1name, group2name, timeunit, timesig, rawdata) {
   conf = conf + ((1 - conf) / 2) # adjusts calculation for 2 tailed
@@ -28,7 +29,7 @@ bottomgraph = function(merged_table, conf, group1name, group2name, timeunit, tim
 
   graph = ggplot(data = graphdata) + geom_ribbon(mapping = aes(x = time, ymin = lowint, ymax = upint), fill = "palegreen", alpha = 0.3) +
     geom_line(mapping = aes(x = time, y = meandiff), color = "green4") +
-    scale_y_continuous(limit = c(yscale_lower, yscale_upper)) +
+    scale_y_continuous(limits = c(yscale_lower, yscale_upper)) +
     scale_x_continuous(breaks = graphdata$time) +
     geom_hline(yintercept = 0, linetype = "solid", color = "black") +
     ylab("Difference in Cumulative Mean Pain") +

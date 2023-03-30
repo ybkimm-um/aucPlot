@@ -2,8 +2,11 @@
 #'
 #' Intakes individual AUC data over time and calculates the cumulative average,
 #' standard deviation, and sample size.
+#'
 #' @param iterative_data matrix of individual, non-cumulative AUC data
+#'
 #' @return table with time, cumulative average, standard deviaiton, and sample size
+#'
 #' @export
 cumulative_table = function(iterative_data) {
   n = nrow(x)
