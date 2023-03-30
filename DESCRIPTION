@@ -9,3 +9,14 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+  ggplot2,
+  tidyr,
+  tidyverse,
+  gapminder,
+  matrixStats,
+  dplyr,
+  gridExtra,
+  matrixcalc,
+  egg
+RoxygenNote: 7.2.3
