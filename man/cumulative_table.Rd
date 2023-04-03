@@ -10,7 +10,8 @@ cumulative_table(iterative_data)
 \item{iterative_data}{matrix of individual, non-cumulative AUC data}
 }
 \value{
-table with time, cumulative average, standard deviaiton, and sample size
+table with time, cumulative average, standard deviaiton,
+and sample size
 }
 \description{
 Intakes individual AUC data over time and calculates the cumulative average,
