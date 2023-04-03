@@ -34,7 +34,7 @@ holm_test <- function(x, conf) {
     rowcount <- rowcount + 1
   }
 
-  insigcount = count(adjusteddata$sig == "N")
+  insigcount = sum(adjusteddata$sig == "N")
 
   if (insigcount > 0) {
     insigdata <- adjusteddata %>% select(time, sig) %>% filter(sig == "N")
