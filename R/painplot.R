@@ -130,7 +130,7 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
       rowcount <- rowcount + 1
     }
 
-    insigcount = count(adjusteddata$sig == "N")
+    insigcount = count(adjusteddata$sig)["N", "n"]
 
     if (insigcount > 0) {
       insigdata <- adjusteddata %>% select(time, sig) %>% filter(sig == "N")
