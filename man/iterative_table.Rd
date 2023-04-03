@@ -10,7 +10,8 @@ iterative_table(iterative_data)
 \item{iterative_data}{matrix of individual AUC values}
 }
 \value{
-table with time, average, standard deviation, and sample size by time interval
+table with time, average, standard deviation,
+and sample size by time interval
 }
 \description{
 Intakes individual AUC data over time and calculates the average,

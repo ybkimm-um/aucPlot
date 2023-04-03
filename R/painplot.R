@@ -120,9 +120,9 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
     rowcount <- 1
 
     while (sigrun != 0) {
-      adjusteddata[rowcount, "sig"] <-
-        ifelse(adjusteddata[rowcount, "pval"] < adjusteddata[rowcount, "hb"],
-               "Y", "N")
+      adjusteddata[rowcount, "sig"] =
+        ifelse( adjusteddata[rowcount, "pval"] <
+                  adjusteddata[rowcount, "hb"], "Y", "N")
       if (adjusteddata[rowcount, "sig"] == "N") {
         sigrun <- 0
       }

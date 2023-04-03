@@ -24,8 +24,8 @@ holm_test <- function(x, conf) {
   rowcount <- 1
 
   while (sigrun != 0) {
-    adjusteddata[rowcount, "sig"] <-
-      ifelse(adjusteddata[rowcount, "pval"] <
+    adjusteddata[rowcount, "sig"] =
+      ifelse( adjusteddata[rowcount, "pval"] <
                adjusteddata[rowcount, "hb"], "Y", "N")
     if (adjusteddata[rowcount, "sig"] == "N") {
       sigrun <- 0

@@ -11,7 +11,7 @@ bottomgraph(
   group2name,
   timeunit,
   timesig,
-  rawdata
+  data_long
 )
 }
 \arguments{
@@ -27,11 +27,11 @@ bottomgraph(
 
 \item{timesig}{point of no significance from holm_test}
 
-\item{rawdata}{raw long-format, longitudinal data}
+\item{data_long}{raw long-format, longitudinal data}
 }
 \value{
 graph of pain over time by group
 }
 \description{
-Creates plot which shows rolling difference in cumulative AUC values over time
+Creates plot showing rolling difference in cumulative AUC values over time
 }

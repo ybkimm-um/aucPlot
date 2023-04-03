@@ -4,10 +4,10 @@
 \alias{topgraph}
 \title{topgraph}
 \usage{
-topgraph(x, conf)
+topgraph(data_long, conf)
 }
 \arguments{
-\item{x}{raw, long-format longitudinal data}
+\item{data_long}{raw, long-format longitudinal data}
 
 \item{conf}{confidence level}
 }
