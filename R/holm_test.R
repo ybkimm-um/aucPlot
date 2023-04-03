@@ -9,37 +9,41 @@
 #' @return time value of no statistical significance
 #'
 #' @export
-holm_test = function(x, conf) {
+holm_test <- function(x, conf) {
 
-  pval = NULL
-  sig = NULL
+  pval <- NULL
+  sig <- NULL
 
-  alpha = 1 - conf
-  n = nrow(x)
-  adjusteddata = x %>% arrange(pval) %>% mutate(rank = row_number(), hb = alpha / (n - rank + 1)) %>% mutate(sig = "N")
+  alpha <- 1 - conf
+  n <- nrow(x)
+  adjusteddata <- x %>% arrange(pval) %>%
+    mutate(rank = row_number(), hb = alpha / (n - rank + 1)) %>%
+    mutate(sig = "N")
 
-  sigrun = 1
-  rowcount = 1
+  sigrun <- 1
+  rowcount <- 1
 
   while (sigrun != 0) {
-    adjusteddata[rowcount, "sig"] = ifelse(adjusteddata[rowcount, "pval"] < adjusteddata[rowcount, "hb"], "Y", "N")
+    adjusteddata[rowcount, "sig"] <-
+      ifelse(adjusteddata[rowcount, "pval"] < adjusteddata[rowcount, "hb"],
+             "Y", "N")
     if (adjusteddata[rowcount, "sig"] == "N") {
-      sigrun = 0
+      sigrun <- 0
     }
     if (rowcount == n) {
-      sigrun = 0
+      sigrun <- 0
     }
-    rowcount = rowcount + 1
+    rowcount <- rowcount + 1
   }
 
-  insigcount = count(adjusteddata$sig == "N")
+  insigcount <- count(adjusteddata$sig == "N")
 
   if (insigcount > 0) {
-    insigdata = adjusteddata %>% select(time, sig) %>% filter(sig == "N")
-    timesig = min(insigdata$time)
+    insigdata <- adjusteddata %>% select(time, sig) %>% filter(sig == "N")
+    timesig <- min(insigdata$time)
   }
   else {
-    timesig = NA
+    timesig <- NA
   }
   return (adjusteddata)
 }
