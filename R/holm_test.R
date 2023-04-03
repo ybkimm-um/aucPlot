@@ -9,10 +9,16 @@
 #' @return time value of no statistical significance
 #'
 #' @export
-holm_test = function(x, conf) {
-  alpha = 1 - conf
-  n = nrow(x)
-  adjusteddata = x %>% arrange(pval) %>% mutate(rank = row_number(), hb = alpha / (n - rank + 1)) %>% mutate(sig = "N")
+holm_test <- function(x, conf) {
+
+  pval <- NULL
+  sig <- NULL
+
+  alpha <- 1 - conf
+  n <- nrow(x)
+  adjusteddata <- x %>% arrange(pval) %>%
+    mutate(rank = row_number(), hb = alpha / (n - rank + 1)) %>%
+    mutate(sig = "N")
 
   sigrun = 1
   rowcount = 1
@@ -25,17 +31,17 @@ holm_test = function(x, conf) {
     if (rowcount == n) {
       sigrun = 0
     }
-    rowcount = rowcount + 1
+    rowcount <- rowcount + 1
   }
 
-  insigcount = count(adjusteddata$sig == "N")
+  insigcount = sum(adjusteddata$sig == "N")
 
   if (insigcount > 0) {
-    insigdata = adjusteddata %>% select(time, sig) %>% filter(sig == "N")
-    timesig = min(insigdata$time)
+    insigdata <- adjusteddata %>% select(time, sig) %>% filter(sig == "N")
+    timesig <- min(insigdata$time)
   }
   else {
-    timesig = NA
+    timesig <- NA
   }
   return (timesig)
 }

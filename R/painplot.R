@@ -185,9 +185,9 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
 
     conf <- conf + ((1 - conf) / 2) # adjusts calculation for 2 tailed
     graphdata <- merged_table %>%
-      mutate(int <- ifelse(num_a == 0 & num_b == 0, 0,
-                           qt(conf, (num_a + num_b - 2)) * sqrt(pooledvar)),
-             lowint <- meandiff - int, upint <- meandiff + int)
+      mutate(int = ifelse(num_a == 0 & num_b == 0, 0,
+                          qt(conf, (num_a + num_b - 2)) * sqrt(pooledvar)),
+             lowint = meandiff - int, upint = meandiff + int)
     graphdata <- rbind(c(0:0), graphdata)
     graphdata[1, "time"] <- data_long[1, "time"]
 
