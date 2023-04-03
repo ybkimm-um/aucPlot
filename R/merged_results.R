@@ -10,6 +10,17 @@
 #'
 #' @export
 merged_results = function(group1, group2) {
+
+  rowmeans_a = NULL
+  rowmeans_b = NULL
+  num_a = NULL
+  rowsds_a = NULL
+  num_b = NULL
+  rowsds_b = NULL
+  meandiff = NULL
+  pooledvar = NULL
+  tstat = NULL
+
   xy = merge(group1, group2, by = "time", suffixes = c("_a", "_b"))
   dfxy = as.data.frame(xy)
 

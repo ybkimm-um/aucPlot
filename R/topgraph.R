@@ -10,6 +10,15 @@
 #' @export
 topgraph = function(x, conf) {
 
+  upint = NULL
+  lowint = NULL
+  intlength = NULL
+  group = NULL
+  pain = NULL
+  sds = NULL
+  n = NULL
+  avgpain = NULL
+
   conf = conf + ((1 - conf) / 2) # adjusts calculation to be 2 tailed
   data = x %>% group_by(group, time) %>% summarize(avgpain = mean(pain, na.rm = TRUE),
                                                    sds = sd(pain, na.rm = TRUE), n = sum(!is.na(pain)), intlength = qnorm(conf) * (sds/sqrt(n)), # make 1.96 an input based on desired conf int

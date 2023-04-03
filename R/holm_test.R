@@ -10,6 +10,10 @@
 #'
 #' @export
 holm_test = function(x, conf) {
+
+  pval = NULL
+  sig = NULL
+
   alpha = 1 - conf
   n = nrow(x)
   adjusteddata = x %>% arrange(pval) %>% mutate(rank = row_number(), hb = alpha / (n - rank + 1)) %>% mutate(sig = "N")

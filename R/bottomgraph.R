@@ -14,8 +14,17 @@
 #'
 #' @export
 bottomgraph = function(merged_table, conf, group1name, group2name, timeunit, timesig, rawdata) {
+
+  num_a = NULL
+  num_b = NULL
+  pooledvar = NULL
+  meandiff = NULL
+  int = NULL
+  lowint = NULL
+  upint = NULL
+
   conf = conf + ((1 - conf) / 2) # adjusts calculation for 2 tailed
-  graphdata = x %>% mutate(int = ifelse(num_a == 0 & num_b == 0, 0, qt(conf, (num_a + num_b - 2)) * sqrt(pooledvar)),
+  graphdata = merged_table %>% mutate(int = ifelse(num_a == 0 & num_b == 0, 0, qt(conf, (num_a + num_b - 2)) * sqrt(pooledvar)),
                            lowint = meandiff - int, upint = meandiff + int)
   graphdata = rbind(c(0:0), graphdata)
   graphdata[1, "time"] = rawdata[1, "time"]

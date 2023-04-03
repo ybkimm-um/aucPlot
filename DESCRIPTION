@@ -1,11 +1,13 @@
 Package: aucPlot
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Visualizes pain outcomes over time using long-format longitudinal data
 Version: 0.1.0
 Author: Young-Bin Kim
 Maintainer: Young-Bin Kim <ybkimm@umich.edu>
 Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+    Intakes long-format longitudinal data and applies measure to explore effects on pain outcomes
+    over time. The main function painplot() returns two visualizations 1) average pain scores over
+    time and 2) the running cumulative difference in iterative pain difference. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

@@ -9,17 +9,17 @@
 #'
 #' @export
 cumulative_table = function(iterative_data) {
-  n = nrow(x)
-  c = ncol(x)
+  n = nrow(iterative_data)
+  c = ncol(iterative_data)
   for (p in 2:n) {
     for (q in 1:c) {
-      x[p, q] = x[p, q] + x[p-1, q]
+      iterative_data[p, q] = iterative_data[p, q] + iterative_data[p-1, q]
     }
   }
-  rowmeans = rowMeans(x, na.rm = TRUE)
-  rowsds = rowSds(x, na.rm = TRUE)
-  num = rowSums(!is.na(x))
-  time = as.double(row.names(x))
+  rowmeans = rowMeans(iterative_data, na.rm = TRUE)
+  rowsds = rowSds(iterative_data, na.rm = TRUE)
+  num = rowSums(!is.na(iterative_data))
+  time = as.double(row.names(iterative_data))
 
   table = cbind(time, rowmeans, rowsds, num)
   return (table)

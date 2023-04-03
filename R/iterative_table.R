@@ -9,10 +9,10 @@
 #'
 #' @export
 iterative_table = function(iterative_data) {
-  rowmeans = rowMeans(matrix1, na.rm = TRUE)
-  rowsds = rowSds(matrix1, na.rm = TRUE)
-  num = rowSums(!is.na(matrix1))
-  time = as.double(rownames(matrix1))
+  rowmeans = rowMeans(iterative_data, na.rm = TRUE)
+  rowsds = rowSds(iterative_data, na.rm = TRUE)
+  num = rowSums(!is.na(iterative_data))
+  time = as.double(rownames(iterative_data))
   table = cbind(time, rowmeans, rowsds, num)
   return (table)
 }

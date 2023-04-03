@@ -29,45 +29,58 @@
 painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "hours",
                     completecase = FALSE) {
 
-  iterative_auc = function(x) {
-    n = length(x$time)
-    missing = is.na(x$pain)
-    x$pain[missing] = 0 # sets all missing values to 0 for purpose of cumulative sum calculations
-    patientdata = matrix(0, nrow = length(unique(x$time)) - 1, ncol = length(unique(x$patient)))
+  group = NULL
+
+  iterative_auc = function(data_long) {
+    n = length(data_long$time)
+    missing = is.na(data_long$pain)
+    data_long$pain[missing] = 0 # sets all missing values to 0 for purpose of cumulative sum calculations
+    patientdata = matrix(0, nrow = length(unique(data_long$time)) - 1, ncol = length(unique(data_long$patient)))
 
     rowcount = 1
     colcount = 0
 
     for (t in 1:n-1) {
-      value = 0.5 * (x$pain[t] + x$pain[t+1]) * (x$time[t+1] - x$time[t])
-      patientdata[t %% length(unique(x$time) + 1), colcount] = value
-      if (t %% length(unique(x$time) + 1) == 0) {
+      value = 0.5 * (data_long$pain[t] + data_long$pain[t+1]) * (data_long$time[t+1] - data_long$time[t])
+      patientdata[t %% length(unique(data_long$time) + 1), colcount] = value
+      if (t %% length(unique(data_long$time) + 1) == 0) {
         rowcount = 1
         colcount = colcount + 1
       }
     }
-    row.names(patientdata) =  tail(unique(x$time), -1)
-    colnames(patientdata) = paste(unique(x$patient), "_AUC", sep = "") # REQUIRES THAT DATA BE ORDERED IN INCREASING PATIENTID
-    x$pain[missing] = NA
+    row.names(patientdata) =  tail(unique(data_long$time), -1)
+    colnames(patientdata) = paste(unique(data_long$patient), "_AUC", sep = "") # REQUIRES THAT DATA BE ORDERED IN INCREASING PATIENTID
+    data_long$pain[missing] = NA
     return (patientdata)
   }
-  cumulative_table = function(x) {
-    n = nrow(x)
-    c = ncol(x)
+  cumulative_table = function(iterative_data) {
+    n = nrow(iterative_data)
+    c = ncol(iterative_data)
     for (p in 2:n) {
       for (q in 1:c) {
-        x[p, q] = x[p, q] + x[p-1, q]
+        iterative_data[p, q] = iterative_data[p, q] + iterative_data[p-1, q]
       }
     }
-    rowmeans = rowMeans(x, na.rm = TRUE)
-    rowsds = rowSds(x, na.rm = TRUE)
-    num = rowSums(!is.na(x))
-    time = as.double(row.names(x))
+    rowmeans = rowMeans(iterative_data, na.rm = TRUE)
+    rowsds = rowSds(iterative_data, na.rm = TRUE)
+    num = rowSums(!is.na(iterative_data))
+    time = as.double(row.names(iterative_data))
 
     table = cbind(time, rowmeans, rowsds, num)
     return (table)
   }
   merged_results = function(x, y) {
+
+    rowmeans_a = NULL
+    rowmeans_b = NULL
+    num_a = NULL
+    rowsds_a = NULL
+    num_b = NULL
+    rowsds_b = NULL
+    meandiff = NULL
+    pooledvar = NULL
+    tstat = NULL
+
     xy = merge(x, y, by = "time", suffixes = c("_a", "_b"))
     dfxy = as.data.frame(xy)
 
@@ -86,6 +99,10 @@ painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "h
     return (table)
   }
   holm_test = function(x, conf) {
+
+    pval = NULL
+    sig = NULL
+
     alpha = 1 - conf
     n = nrow(x)
     adjusteddata = x %>% arrange(pval) %>% mutate(rank = row_number(), hb = alpha / (n - rank + 1)) %>% mutate(sig = "N")
@@ -116,6 +133,16 @@ painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "h
     return (timesig)
   }
   topgraph = function(x, conf) {
+
+    upint = NULL
+    lowint = NULL
+    intlength = NULL
+    group = NULL
+    pain = NULL
+    sds = NULL
+    n = NULL
+    avgpain = NULL
+
     conf = conf + ((1 - conf) / 2) # adjusts calculation to be 2 tailed
     data = x %>% group_by(group, time) %>% summarize(avgpain = mean(pain, na.rm = TRUE),
                                                      sds = sd(pain, na.rm = TRUE), n = sum(!is.na(pain)), intlength = qnorm(conf) * (sds/sqrt(n)), # make 1.96 an input based on desired conf int
@@ -130,7 +157,17 @@ painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "h
       theme_classic() + theme(panel.border = element_rect(colour = "black", fill=NA, size=1), axis.title.x = element_blank())
     return (graph)
   }
-  bottomgraph = function(x, conf, group1name, group2name, timeunit, timesig, rawdata) {
+  bottomgraph = function(x, conf, group1name, group2name, timeunit, timesig,
+                         rawdata) {
+
+    num_a = NULL
+    num_b = NULL
+    pooledvar = NULL
+    meandiff = NULL
+    int = NULL
+    lowint = NULL
+    upint = NULL
+
     conf = conf + ((1 - conf) / 2) # adjusts calculation for 2 tailed
     graphdata = x %>% mutate(int = ifelse(num_a == 0 & num_b == 0, 0, qt(conf, (num_a + num_b - 2)) * sqrt(pooledvar)),
                              lowint = meandiff - int, upint = meandiff + int)
@@ -160,17 +197,18 @@ painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "h
   }
 
   #standardize column names to lower case
-  names(x) = tolower(names(x))
+  names(raw_data) = tolower(names(raw_data))
 
   # complete cases option
   if (completecase == FALSE) {
   }
   if (completecase == TRUE) {
-    x = x[ave(complete.cases(x), x$patient, FUN = all), ]
+    raw_data = raw_data[ave(complete.cases(raw_data),
+                            raw_data$patient, FUN = all), ]
   }
   # filters data and creates individual datasets per group
-  group1 = x %>% filter(group == group1name)
-  group2 = x %>% filter(group == group2name)
+  group1 = raw_data %>% filter(group == group1name)
+  group2 = raw_data %>% filter(group == group2name)
 
   # creates individual tables for each group of cumulative averages
   group1step2 = cumulative_table(iterative_auc(group1))
@@ -190,10 +228,11 @@ painplot = function(raw_data, conf = 0.95, group1name, group2name, timeunit = "h
   timesig = holm_test(adjustedtable, conf)
 
   #top plot
-  topplot = topgraph(x, conf)
+  topplot = topgraph(raw_data, conf)
 
   #creating bottom plot
-  bottomplot = bottomgraph(completetable, conf, group1name, group2name, timeunit, timesig, x)
+  bottomplot = bottomgraph(completetable, conf, group1name, group2name, timeunit,
+                           timesig, raw_data)
   # create combined plot
 
   finalplot = ggarrange(topplot, bottomplot)
