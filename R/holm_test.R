@@ -11,37 +11,15 @@
 #' @export
 holm_test <- function(x, conf) {
 
-  pval <- NULL
+  adjusted_pval <- NULL
   sig <- NULL
 
-  alpha <- 1 - conf
-  n <- nrow(x)
-  adjusteddata <- x %>% arrange(pval) %>%
-    mutate(rank = row_number(), hb = alpha / (n - rank + 1)) %>%
-    mutate(sig = "N")
+  adjusteddata = x %>% mutate(adjusted_pval = p.adjust(x$pval,method = "holm"),
+                              sig = ifelse(adjusted_pval <= 1-conf, "Y", "N"))
 
-  sigrun = 1
-  rowcount = 1
+  insig_table = adjusteddata %>% filter(sig == "N")
 
-  while (sigrun != 0) {
-    adjusteddata[rowcount, "sig"] = ifelse(adjusteddata[rowcount, "pval"] < adjusteddata[rowcount, "hb"], "Y", "N")
-    if (adjusteddata[rowcount, "sig"] == "N") {
-      sigrun = 0
-    }
-    if (rowcount == n) {
-      sigrun = 0
-    }
-    rowcount <- rowcount + 1
-  }
+  insig_time = min(insig_table$time)
 
-  insigcount = sum(adjusteddata$sig == "N")
-
-  if (insigcount > 0) {
-    insigdata <- adjusteddata %>% select(time, sig) %>% filter(sig == "N")
-    timesig <- min(insigdata$time)
-  }
-  else {
-    timesig <- NA
-  }
-  return (timesig)
+  return (insig_time)
 }
