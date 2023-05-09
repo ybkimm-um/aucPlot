@@ -20,7 +20,7 @@
 #' @importFrom dplyr group_by summarize mutate filter select %>%
 #' arrange count row_number
 #'
-#' @importFrom stats ave complete.cases pt qnorm qt sd time
+#' @importFrom stats ave complete.cases pt qnorm qt sd time p.adjust
 #'
 #' @importFrom matrixStats rowSds
 #'
@@ -110,12 +110,13 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
     adjusted_pval <- NULL
     sig <- NULL
 
-    adjusteddata = x %>% mutate(adjusted_pval = p.adjust(x$pval,method = "holm"),
-                                sig = ifelse(adjusted_pval <= 1-conf, "Y", "N"))
+    adjusteddata <- x %>%
+      mutate(adjusted_pval <- p.adjust(x$pval,method = "holm"),
+                            sig <- ifelse(adjusted_pval <= 1-conf, "Y", "N"))
 
-    insig_table = adjusteddata %>% filter(sig == "N")
+    insig_table <- adjusteddata %>% filter(sig == "N")
 
-    insig_time = min(insig_table$time)
+    insig_time <- min(insig_table$time)
 
     return (insig_time)
   }
