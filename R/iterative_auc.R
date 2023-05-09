@@ -1,6 +1,7 @@
 #' iterative_auc
 #'
-#' Imtakes raw long-format longitudinal data and calculates iterative AUC values
+#' Intakes long-format longitudinal data and calculates iterative AUC values
+#' by individual patient
 #'
 #' @param data_long long format longitudinal data
 #'
@@ -11,7 +12,7 @@ iterative_auc <- function(data_long) {
   n <- length(data_long$time)
   missing <- is.na(data_long$pain)
   data_long$pain[missing] <- 0
-    # sets all missing values to 0 for purpose of cumulative sum calculations
+  # sets all missing values to 0 for purpose of cumulative sum calculations
   patientdata <- matrix(0, nrow = length(unique(data_long$time)) - 1,
                        ncol = length(unique(data_long$patient)))
 

@@ -13,5 +13,6 @@ iterative_auc(data_long)
 matrix of individual AUC per time interval
 }
 \description{
-Imtakes raw long-format longitudinal data and calculates iterative AUC values
+Intakes long-format longitudinal data and calculates iterative AUC values
+by individual patient
 }

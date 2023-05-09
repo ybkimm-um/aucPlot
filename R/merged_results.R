@@ -1,7 +1,7 @@
 #' merged_results
 #'
-#' Aggregates data from 2 individual tables and calculates the mean difference,
-#' pooled variance, t-test statistic, and p-value
+#' Aggregates data from 2 individual tables into one and calculates the
+#' mean difference, pooled variance, t-test statistic, and p-value
 #'
 #' @param group1 aggregated data from group1
 #' @param group2 aggregated data from group2

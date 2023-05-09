@@ -15,6 +15,6 @@ merged_results(group1, group2)
 merged table with extra metrics for both groups
 }
 \description{
-Aggregates data from 2 individual tables and calculates the mean difference,
-pooled variance, t-test statistic, and p-value
+Aggregates data from 2 individual tables into one and calculates the
+mean difference, pooled variance, t-test statistic, and p-value
 }

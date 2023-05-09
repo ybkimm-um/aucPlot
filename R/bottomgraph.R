@@ -1,6 +1,7 @@
 #' bottomgraph
 #'
 #' Creates plot showing rolling difference in cumulative AUC values over time
+#' with first time of no significance highlighted
 #'
 #' @param merged_table table from merged_results
 #' @param conf confidence level

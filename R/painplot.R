@@ -1,6 +1,7 @@
 #' painplot
 #'
-#' Takes in raw inputs and outputs 2 visuals
+#' Takes in long form longitudinal data and extra information to produce
+#' 2 visuals.
 #'
 #' @param raw_data raw long-format, longitudinal data
 #' @param conf confidence level

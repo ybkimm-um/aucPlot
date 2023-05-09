@@ -14,6 +14,6 @@ table with time, average, standard deviation,
 and sample size by time interval
 }
 \description{
-Intakes individual AUC data over time and calculates the average,
+Intakes individual AUC data over time and aggregates data into the average,
 standard deviation, and sample size by time interval.
 }

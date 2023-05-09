@@ -34,4 +34,5 @@ graph of pain over time by group
 }
 \description{
 Creates plot showing rolling difference in cumulative AUC values over time
+with first time of no significance highlighted
 }
