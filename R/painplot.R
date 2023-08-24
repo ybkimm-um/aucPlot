@@ -136,7 +136,7 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
     data <- data_long %>% group_by(group, time) %>%
       summarize(avgpain = mean(pain, na.rm = TRUE),
                 sds = sd(pain, na.rm = TRUE), n = sum(!is.na(pain)),
-                intlength = qnorm(conf) * (sds/sqrt(n)),
+                intlength = qt(conf,n-1) * (sds/sqrt(n)),
                 lowint = avgpain - intlength, upint = avgpain + intlength)
 
     graph <- ggplot(data = data) +
