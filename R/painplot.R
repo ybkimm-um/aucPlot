@@ -112,8 +112,8 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
     sig <- NULL
 
     adjusteddata <- x %>%
-      mutate(adjusted_pval <- p.adjust(x$pval,method = "holm"),
-                            sig <- ifelse(adjusted_pval <= 1-conf, "Y", "N"))
+      mutate(adjusted_pval = p.adjust(x$pval, method = "holm"),
+                            sig = ifelse(adjusted_pval <= 1-conf, "Y", "N"))
 
     insig_table <- adjusteddata %>% filter(sig == "N")
 
@@ -153,7 +153,7 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
     return (graph)
   }
   bottomgraph <- function(merged_table, conf, group1name, group2name, timeunit,
-                          timesig, data_long) {
+                          insig_time, data_long) {
 
     num_a <- NULL
     num_b <- NULL

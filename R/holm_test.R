@@ -15,8 +15,8 @@ holm_test <- function(x, conf) {
   sig <- NULL
 
   adjusteddata <- x %>%
-    mutate(adjusted_pval <- p.adjust(x$pval,method = "holm"),
-                              sig <- ifelse(adjusted_pval <= 1-conf, "Y", "N"))
+    mutate(adjusted_pval = p.adjust(x$pval, method = "holm"),
+                              sig = ifelse(adjusted_pval <= 1-conf, "Y", "N"))
 
   insig_table <- adjusteddata %>% filter(sig == "N")
 

@@ -15,7 +15,7 @@
 #'
 #' @export
 bottomgraph <- function(merged_table, conf, group1name, group2name, timeunit,
-                        timesig, data_long) {
+                        insig_time, data_long) {
 
   num_a <- NULL
   num_b <- NULL
