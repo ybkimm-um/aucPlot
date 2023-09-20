@@ -8,7 +8,7 @@ Description:
     Intakes long-format longitudinal data and applies measure to explore effects 
     on pain outcomes over time. The main function painplot() returns two 
     visualizations 1) average pain scores over time and 
-    2) the running cumulative difference in iterative pain difference. 
+    2) the running cumulative difference in iterative pain difference
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

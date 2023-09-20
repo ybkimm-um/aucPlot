@@ -1,7 +1,7 @@
 #' iterative_table
 #'
 #' Intakes individual AUC data over time and aggregates data into the average,
-#' standard deviation, and sample size by time interval.
+#' standard deviation, and sample size by time interval
 #'
 #' @param iterative_data matrix of individual AUC values
 #'

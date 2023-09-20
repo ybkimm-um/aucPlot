@@ -31,5 +31,5 @@ painplot(
 }
 \description{
 Takes in long form longitudinal data and extra information to produce
-2 visuals.
+2 visuals
 }

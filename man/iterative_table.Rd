@@ -15,5 +15,5 @@ and sample size by time interval
 }
 \description{
 Intakes individual AUC data over time and aggregates data into the average,
-standard deviation, and sample size by time interval.
+standard deviation, and sample size by time interval
 }
