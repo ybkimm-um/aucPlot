@@ -153,7 +153,7 @@ painplot <- function(raw_data, conf = 0.95, group1name, group2name,
     return (graph)
   }
   bottomgraph <- function(merged_table, conf, group1name, group2name, timeunit,
-                          insig_time, data_long) {
+                          timesig, data_long) {
 
     num_a <- NULL
     num_b <- NULL
